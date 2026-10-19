@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>知报 · 财报研究工作台</title><link rel="stylesheet" href="/static/style.css"></head>
+<body>
+<aside class="sidebar">
+  <div class="brand"><span class="brand-mark">知</span><div><strong>知报</strong><small>FINANCIAL RESEARCH</small></div></div>
+  <button id="new-session" class="primary new">＋ 开始一项研究</button>
+  <div class="nav-label">研究记录 <span id="session-count"></span></div><nav id="sessions"></nav>
+  <div class="sidebar-bottom"><span class="live-dot"></span> 本地运行 · 数据截至 2025.08.31
+    <button id="config-button" class="quiet">模型与运行配置 <span>↗</span></button></div>
+</aside>
+<main>
+<header><div><span class="eyebrow">RESEARCH WORKSPACE</span><h1>财报研究工作台</h1></div>
+  <div class="header-controls"><span id="model-status" class="badge">读取配置中</span><button id="sources-button" class="secondary">资料与证据</button></div></header>
+<section class="stats" id="stats"><div><b>—</b><span>家公司</span></div><div><b>—</b><span>份中文报告</span></div><div><b>—</b><span>页原始披露</span></div><div><b>—</b><span>个检索片段</span></div></section>
+<div class="research-layout">
+<section class="conversation">
+<div id="welcome"><div class="intro-icon">↗</div><p class="eyebrow">从一个问题，找到一条有依据的结论</p><h2>让每一个财务判断<br>都有出处。</h2><p class="subtext">围绕公司、报告期和财务指标展开研究。保留证据页码，<br>追踪计算过程，也记住你正在研究什么。</p>
+<div class="examples"><button data-question="根据德赛电池2024年年报，比较营业收入和归母净利润的同比变化，给出计算过程和原始页码。"><span>01 / 指标比较</span>德赛电池的收入与利润如何变化？<b>↗</b></button>
+<button data-question="分析欣旺达2024年经营现金流与归母净利润的差异，哪些原因在财报中有明确披露？"><span>02 / 现金流分析</span>现金流和利润的差异来自哪里？<b>↗</b></button>
+<button data-question="比较中兴通讯2023和2024年的研发投入情况，核对财务口径并引用原始报告。"><span>03 / 跨期研究</span>中兴通讯的研发投入发生了什么变化？<b>↗</b></button></div></div>
+<div id="messages" aria-live="polite"></div>
+<div class="composer-wrap"><div class="composer"><textarea id="question" rows="3" maxlength="4000" placeholder="输入研究问题，例如：这家公司的经营现金流为什么高于净利润？"></textarea><div class="composer-footer"><label>知识截止 <input id="as-of" type="date" max="2025-08-31" value="2025-08-31"></label><select id="mode" aria-label="运行模式"><option value="agent">Agent 分析</option><option value="retrieval">证据检索</option></select><button id="send" class="primary">开始研究 <span>↑</span></button></div></div><p class="composer-hint" id="composer-hint">Enter 发送 · Shift + Enter 换行 · 财务结论可回查原始 PDF</p></div>
+</section>
+<aside class="evidence-panel" id="evidence-panel"><div class="panel-tabs"><button class="active" data-tab="evidence">证据</button><button data-tab="trace">运行过程</button><button data-tab="library">资料库</button></div>
+<div id="evidence" class="tab-pane"><div class="empty"><span>▤</span><h3>证据会出现在这里</h3><p>每次研究保留报告、披露日期和页码，<br>点击即可回查原文。</p></div></div>
+<div id="trace" class="tab-pane hidden"></div><div id="library" class="tab-pane hidden"></div></aside>
+</div></main>
+<dialog id="modal"><div class="modal-header"><h2 id="modal-title"></h2><button id="close-modal" aria-label="关闭">×</button></div><div id="modal-content"></div></dialog>
+<div id="toast" role="status"></div><script src="/static/app.js"></script>
+</body></html>

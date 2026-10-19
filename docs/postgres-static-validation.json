@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "kind": "static_only",
+  "python_files": 26,
+  "postgresql_parameterized_statements": 33,
+  "runtime_database": "postgresql",
+  "task_terminology": "workflow/task templates",
+  "database_started": false,
+  "migration_executed": false,
+  "database_tests_executed": false,
+  "live_model_called": false,
+  "powershell_scripts": "syntax_passed",
+  "compose_yaml": "syntax_passed",
+  "frontend_javascript": "syntax_passed",
+  "dependency_releases_audited": 55,
+  "all_runtime_releases_before_cutoff": true
+}

@@ -1,0 +1,110 @@
+{
+  "project": "知报 / finreport-agent-2025",
+  "data_cutoff": "2025-08-31",
+  "stats": {
+    "documents": 40,
+    "pages": 9425,
+    "chunks": 28143,
+    "metrics": 159,
+    "companies": 10,
+    "latest_publication": "2025-08-30"
+  },
+  "runtime_dependency_releases_audited": 55,
+  "all_runtime_releases_before_cutoff": true,
+  "build_tools_releases_audited": [
+    {
+      "name": "pip",
+      "version": "25.2",
+      "first_upload": "2025-07-30T21:50:13.323040Z",
+      "allowed": true
+    },
+    {
+      "name": "setuptools",
+      "version": "80.9.0",
+      "first_upload": "2025-05-27T00:56:49.664463Z",
+      "allowed": true
+    },
+    {
+      "name": "wheel",
+      "version": "0.45.1",
+      "first_upload": "2024-11-23T00:18:21.207713Z",
+      "allowed": true
+    }
+  ],
+  "reliability_checks": {
+    "status": "not_run_for_postgresql",
+    "reason": "User requested code and deployment configuration only."
+  },
+  "actual_mcp_roundtrip": "not_run_for_postgresql",
+  "actual_http_roundtrip": "not_run_for_postgresql",
+  "browser_js_and_powershell_syntax": "passed",
+  "retrieval_dev": {
+    "cases": 15,
+    "page_recall_at_5": 1.0
+  },
+  "retrieval_company_holdout": {
+    "cases": 5,
+    "page_recall_at_5": 0.8
+  },
+  "task_drafts": 100,
+  "reviewed_numeric_references": 20,
+  "live_llm_validation": "deferred_by_user; configure DASHSCOPE_API_KEY locally",
+  "note": "Scripted model checks validate the harness, not financial answer quality; small retrieval results are not LLM accuracy.",
+  "recorded_at": "2026-10-19T09:23:54.518314+00:00",
+  "historical_sqlite_validation": {
+    "reliability_checks": {
+      "passed": 31,
+      "failed": 0
+    },
+    "actual_mcp_roundtrip": "passed",
+    "actual_http_roundtrip": "passed",
+    "context_simplification": {
+      "mode": "recent_dialogue_and_earlier_summary",
+      "max_recent_turns": 4,
+      "minimum_recent_turns_when_history_exists": 1,
+      "summary_max_chars": 1000,
+      "summary_method": "bounded_extractive_qa",
+      "history_token_target": 2300,
+      "total_input_budget_enforced": true,
+      "long_term_memory_enabled": false,
+      "model_artifact_retrieval_enabled": false,
+      "financial_tool_count": 4,
+      "unit_checks": "31 passed",
+      "actual_http_roundtrip": {
+        "status": "passed",
+        "documents": 40,
+        "first_citations": 4,
+        "follow_up_company": [
+          "德赛电池"
+        ],
+        "future_rejected": true,
+        "model_configured": false,
+        "live_model_called": false,
+        "context_mode": "recent_dialogue_and_earlier_summary",
+        "recent_turns": 1,
+        "summarized_turns": 5,
+        "summary_chars": 923,
+        "full_history_turns": 7,
+        "retired_memory_api": 404
+      },
+      "javascript_syntax": "passed",
+      "live_llm_called": false,
+      "recorded_at": "2026-10-19T09:59:24.961460+00:00"
+    }
+  },
+  "runtime_backend": "postgresql",
+  "postgresql_delivery": {
+    "server_version": "17.6",
+    "server_release_date": "2025-08-14",
+    "driver_version": "3.2.9",
+    "driver_first_upload": "2025-05-13",
+    "services_started": false,
+    "data_migrated": false,
+    "live_llm_called": false,
+    "static_validation_file": "docs/postgres-static-validation.json",
+    "dockerfile_and_compose": "provided",
+    "task_templates": 3,
+    "mcp_tools": 4,
+    "recorded_at": "2026-10-19T10:16:12.241031+00:00"
+  }
+}

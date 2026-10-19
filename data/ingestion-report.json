@@ -1,0 +1,10 @@
+{
+  "new_documents": 40,
+  "new_pages": 9425,
+  "new_chunks": 28143,
+  "new_metrics": 188,
+  "errors": [],
+  "current_metrics": 159,
+  "extractor_version": 2,
+  "metrics_rebuilt_at": "2026-10-19T09:23:54.518314+00:00"
+}

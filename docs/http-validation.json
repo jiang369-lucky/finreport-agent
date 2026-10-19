@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "documents": 40,
+  "first_citations": 4,
+  "follow_up_company": [
+    "德赛电池"
+  ],
+  "future_rejected": true,
+  "model_configured": false,
+  "live_model_called": false,
+  "context_mode": "recent_dialogue_and_earlier_summary",
+  "recent_turns": 1,
+  "summarized_turns": 5,
+  "summary_chars": 923,
+  "full_history_turns": 7,
+  "retired_memory_api": 404,
+  "backend": "sqlite",
+  "applies_to": "Historical SQLite implementation only; PostgreSQL runtime not executed."
+}

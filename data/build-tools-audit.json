@@ -1,0 +1,20 @@
+[
+  {
+    "name": "pip",
+    "version": "25.2",
+    "first_upload": "2025-07-30T21:50:13.323040Z",
+    "allowed": true
+  },
+  {
+    "name": "setuptools",
+    "version": "80.9.0",
+    "first_upload": "2025-05-27T00:56:49.664463Z",
+    "allowed": true
+  },
+  {
+    "name": "wheel",
+    "version": "0.45.1",
+    "first_upload": "2024-11-23T00:18:21.207713Z",
+    "allowed": true
+  }
+]

@@ -1,0 +1,318 @@
+{
+  "mode": "retrieval",
+  "dataset": "eval/verified_facts.jsonl",
+  "cases": 15,
+  "model": "qwen3-235b-a22b-instruct-2507",
+  "cutoff": "2025-08-31",
+  "evaluated_at": "2026-10-19T09:08:18.883930+00:00",
+  "evidence_page_recall_at_5": 1.0,
+  "live_model_called": false,
+  "note": "检索页命中率不是答案准确率；数值出现与页码引用只作诊断，真实答案正确性仍需人工审核。",
+  "runs": [
+    {
+      "case_id": "000049_revenue_2024",
+      "question": "根据德赛电池2024年年报，2024年度营业收入是多少？给出金额、单位和原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt",
+      "split": "dev",
+      "retrieved_pages": [
+        "000049_2024:p135",
+        "000049_2024:p14",
+        "000049_2024:p42",
+        "000049_2024:p7",
+        "000049_2024:p8"
+      ],
+      "evidence_page_hit_at_5": true,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 332,
+      "human_answer_review": "not_applicable"
+    },
+    {
+      "case_id": "000063_revenue_2024",
+      "question": "根据中兴通讯2024年年报，2024年度营业收入是多少？给出金额、单位和原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt",
+      "split": "dev",
+      "retrieved_pages": [
+        "000063_2024:p11",
+        "000063_2024:p12",
+        "000063_2024:p26",
+        "000063_2024:p27"
+      ],
+      "evidence_page_hit_at_5": true,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 22,
+      "human_answer_review": "not_applicable"
+    },
+    {
+      "case_id": "000651_revenue_2024",
+      "question": "根据格力电器2024年年报，2024年度营业收入是多少？给出金额、单位和原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt",
+      "split": "dev",
+      "retrieved_pages": [
+        "000651_2024:p113",
+        "000651_2024:p25",
+        "000651_2024:p26",
+        "000651_2024:p7",
+        "000651_2024:p8"
+      ],
+      "evidence_page_hit_at_5": true,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 21,
+      "human_answer_review": "not_applicable"
+    },
+    {
+      "case_id": "000725_revenue_2024",
+      "question": "根据京东方A2024年年报，2024年度营业收入是多少？给出金额、单位和原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt",
+      "split": "dev",
+      "retrieved_pages": [
+        "000725_2024:p11",
+        "000725_2024:p18",
+        "000725_2024:p200",
+        "000725_2024:p252"
+      ],
+      "evidence_page_hit_at_5": true,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 22,
+      "human_answer_review": "not_applicable"
+    },
+    {
+      "case_id": "002008_revenue_2024",
+      "question": "根据大族激光2024年年报，2024年度营业收入是多少？给出金额、单位和原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt",
+      "split": "dev",
+      "retrieved_pages": [
+        "002008_2024:p14",
+        "002008_2024:p69",
+        "002008_2024:p7",
+        "002008_2024:p8"
+      ],
+      "evidence_page_hit_at_5": true,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 21,
+      "human_answer_review": "not_applicable"
+    },
+    {
+      "case_id": "002415_revenue_2024",
+      "question": "根据海康威视2024年年报，2024年度营业收入是多少？给出金额、单位和原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt",
+      "split": "dev",
+      "retrieved_pages": [
+        "002415_2024:p10",
+        "002415_2024:p232",
+        "002415_2024:p9",
+        "002415_2024:p90",
+        "002415_2024:p91"
+      ],
+      "evidence_page_hit_at_5": true,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 21,
+      "human_answer_review": "not_applicable"
+    },
+    {
+      "case_id": "fact_0",
+      "question": "根据德赛电池2024年年报，2024年度归属于上市公司股东的净利润是多少？给出数值、单位和原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt",
+      "split": "dev",
+      "retrieved_pages": [
+        "000049_2024:p12",
+        "000049_2024:p163",
+        "000049_2024:p7",
+        "000049_2024:p8"
+      ],
+      "evidence_page_hit_at_5": true,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 32,
+      "human_answer_review": "not_applicable"
+    },
+    {
+      "case_id": "fact_1",
+      "question": "根据德赛电池2024年年报，2024年度经营活动产生的现金流量净额是多少？给出数值、单位和原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt",
+      "split": "dev",
+      "retrieved_pages": [
+        "000049_2024:p18",
+        "000049_2024:p7",
+        "000049_2024:p77",
+        "000049_2024:p8"
+      ],
+      "evidence_page_hit_at_5": true,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 67,
+      "human_answer_review": "not_applicable"
+    },
+    {
+      "case_id": "fact_2",
+      "question": "根据德赛电池2024年年报，2024年度总资产是多少？给出数值、单位和原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt",
+      "split": "dev",
+      "retrieved_pages": [
+        "000049_2024:p150",
+        "000049_2024:p21",
+        "000049_2024:p23",
+        "000049_2024:p54",
+        "000049_2024:p7"
+      ],
+      "evidence_page_hit_at_5": true,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 15,
+      "human_answer_review": "not_applicable"
+    },
+    {
+      "case_id": "fact_3",
+      "question": "根据德赛电池2024年年报，2024年度归属于上市公司股东的净资产是多少？给出数值、单位和原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt",
+      "split": "dev",
+      "retrieved_pages": [
+        "000049_2024:p163",
+        "000049_2024:p60",
+        "000049_2024:p7",
+        "000049_2024:p8"
+      ],
+      "evidence_page_hit_at_5": true,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 32,
+      "human_answer_review": "not_applicable"
+    },
+    {
+      "case_id": "fact_4",
+      "question": "根据德赛电池2024年年报，2024年度基本每股收益是多少？给出数值、单位和原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt",
+      "split": "dev",
+      "retrieved_pages": [
+        "000049_2024:p163",
+        "000049_2024:p60",
+        "000049_2024:p7",
+        "000049_2024:p74",
+        "000049_2024:p75"
+      ],
+      "evidence_page_hit_at_5": true,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 25,
+      "human_answer_review": "not_applicable"
+    },
+    {
+      "case_id": "fact_5",
+      "question": "根据大族激光2024年年报，2024年度归属于上市公司股东的净利润是多少？给出数值、单位和原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt",
+      "split": "dev",
+      "retrieved_pages": [
+        "002008_2024:p34",
+        "002008_2024:p7",
+        "002008_2024:p78",
+        "002008_2024:p8"
+      ],
+      "evidence_page_hit_at_5": true,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 30,
+      "human_answer_review": "not_applicable"
+    },
+    {
+      "case_id": "fact_6",
+      "question": "根据海康威视2024年年报，2024年度归属于上市公司股东的净利润是多少？给出数值、单位和原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt",
+      "split": "dev",
+      "retrieved_pages": [
+        "002415_2024:p10",
+        "002415_2024:p161",
+        "002415_2024:p271",
+        "002415_2024:p9"
+      ],
+      "evidence_page_hit_at_5": true,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 32,
+      "human_answer_review": "not_applicable"
+    },
+    {
+      "case_id": "growth_18",
+      "question": "根据德赛电池2024年年报计算营业收入同比变化百分比，说明计算式并引用原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt_and_decimal",
+      "split": "dev",
+      "retrieved_pages": [
+        "000049_2024:p12",
+        "000049_2024:p13",
+        "000049_2024:p18",
+        "000049_2024:p7"
+      ],
+      "evidence_page_hit_at_5": true,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 33,
+      "human_answer_review": "not_applicable"
+    },
+    {
+      "case_id": "growth_19",
+      "question": "根据德赛电池2024年年报计算归母净利润同比变化百分比，说明计算式并引用原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt_and_decimal",
+      "split": "dev",
+      "retrieved_pages": [
+        "000049_2024:p12",
+        "000049_2024:p163",
+        "000049_2024:p7",
+        "000049_2024:p8"
+      ],
+      "evidence_page_hit_at_5": true,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 53,
+      "human_answer_review": "not_applicable"
+    }
+  ]
+}

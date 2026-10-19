@@ -1,0 +1,116 @@
+{
+  "mode": "retrieval",
+  "dataset": "eval/verified_facts.jsonl",
+  "cases": 5,
+  "model": "qwen3-235b-a22b-instruct-2507",
+  "cutoff": "2025-08-31",
+  "evaluated_at": "2026-10-19T09:08:22.867696+00:00",
+  "evidence_page_recall_at_5": 0.8,
+  "live_model_called": false,
+  "note": "检索页命中率不是答案准确率；数值出现与页码引用只作诊断，真实答案正确性仍需人工审核。",
+  "runs": [
+    {
+      "case_id": "002475_revenue_2024",
+      "question": "根据立讯精密2024年年报，2024年度营业收入是多少？给出金额、单位和原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt",
+      "split": "test",
+      "retrieved_pages": [
+        "002475_2024:p17",
+        "002475_2024:p207",
+        "002475_2024:p273",
+        "002475_2024:p69",
+        "002475_2024:p8"
+      ],
+      "evidence_page_hit_at_5": true,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 344,
+      "human_answer_review": "not_applicable"
+    },
+    {
+      "case_id": "002594_revenue_2024",
+      "question": "根据比亚迪2024年年报，2024年度营业收入是多少？给出金额、单位和原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt",
+      "split": "test",
+      "retrieved_pages": [
+        "002594_2024:p10",
+        "002594_2024:p11",
+        "002594_2024:p228",
+        "002594_2024:p287",
+        "002594_2024:p72"
+      ],
+      "evidence_page_hit_at_5": true,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 21,
+      "human_answer_review": "not_applicable"
+    },
+    {
+      "case_id": "300124_revenue_2024",
+      "question": "根据汇川技术2024年年报，2024年度营业收入是多少？给出金额、单位和原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt",
+      "split": "test",
+      "retrieved_pages": [
+        "300124_2024:p10",
+        "300124_2024:p183",
+        "300124_2024:p191",
+        "300124_2024:p229"
+      ],
+      "evidence_page_hit_at_5": false,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 21,
+      "human_answer_review": "not_applicable"
+    },
+    {
+      "case_id": "300207_revenue_2024",
+      "question": "根据欣旺达2024年年报，2024年度营业收入是多少？给出金额、单位和原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt",
+      "split": "test",
+      "retrieved_pages": [
+        "300207_2024:p16",
+        "300207_2024:p226",
+        "300207_2024:p290",
+        "300207_2024:p8",
+        "300207_2024:p9"
+      ],
+      "evidence_page_hit_at_5": true,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 21,
+      "human_answer_review": "not_applicable"
+    },
+    {
+      "case_id": "fact_7",
+      "question": "根据立讯精密2024年年报，2024年度归属于上市公司股东的净利润是多少？给出数值、单位和原始页码。",
+      "mode": "retrieval",
+      "annotation_status": "reviewed_original_excerpt",
+      "split": "test",
+      "retrieved_pages": [
+        "002475_2024:p128",
+        "002475_2024:p275",
+        "002475_2024:p8",
+        "002475_2024:p9"
+      ],
+      "evidence_page_hit_at_5": true,
+      "answer": null,
+      "numeric_value_present": null,
+      "status": "retrieved",
+      "usage": {},
+      "latency_ms": 30,
+      "human_answer_review": "not_applicable"
+    }
+  ]
+}
