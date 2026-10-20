@@ -11,6 +11,7 @@ import jieba
 import pymupdf
 from rank_bm25 import BM25Okapi
 
+from .chunking import chunk_page_sources, document_chunks
 from .config import ROOT, settings, validate_as_of
 from .storage import connect, dump, init_db, now
 
@@ -65,21 +66,6 @@ def page_lines(page) -> list[str]:
             baseline = word[1]
         rows[-1].append(word)
     return [" ".join(w[4] for w in sorted(row, key=lambda w: w[0])) for row in rows]
-
-
-def chunks_from_text(text: str, size=1100, overlap=140):
-    position = 0
-    while position < len(text):
-        end = min(position + size, len(text))
-        boundary = text.rfind("\n", position + size // 2, end)
-        if end < len(text) and boundary > position:
-            end = boundary
-        piece = text[position:end].strip()
-        if piece:
-            yield piece
-        if end == len(text):
-            break
-        position = max(position + 1, end - overlap)
 
 
 def table_lines(page) -> list[str]:
@@ -152,7 +138,7 @@ def ingest_manifest(manifest_path: Path | None = None) -> dict:
     init_db()
     manifest_path = manifest_path or settings.data_dir / "manifest.json"
     manifest = json.loads(manifest_path.read_text("utf-8"))
-    count = pages = chunks = metrics = 0
+    count = reindexed = pages = chunks = metrics = 0
     errors = []
     for record in manifest["documents"]:
         try:
@@ -165,38 +151,51 @@ def ingest_manifest(manifest_path: Path | None = None) -> dict:
                 raise ValueError("原始 PDF 的 SHA256 与清单不一致")
             with connect() as conn:
                 old = conn.execute("SELECT sha256 FROM documents WHERE id=%s", (record["id"],)).fetchone()
-            if old and old["sha256"] == record["sha256"]:
-                continue
+                unchanged = old and old["sha256"] == record["sha256"]
+                if unchanged and conn.execute(
+                    "SELECT 1 FROM chunk_metadata m JOIN chunks c ON c.id=m.chunk_id "
+                    "WHERE c.document_id=%s LIMIT 1", (record["id"],)).fetchone():
+                    continue
             with pymupdf.open(path) as pdf, connect() as conn:
-                conn.execute("DELETE FROM documents WHERE id=%s", (record["id"],))
-                conn.execute("INSERT INTO documents VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
-                    (record["id"], record["company"], record["code"], record["title"], record["period"],
-                     record["published"], record["url"], record["sha256"], record["path"], len(pdf), now()))
                 doc_chunks = doc_metrics = 0
-                for page_index, page in enumerate(pdf):
-                    page_no = page_index + 1
-                    text = page.get_text("text", sort=True).replace("\x00", "")
-                    conn.execute("INSERT INTO pages VALUES(%s,%s,%s)", (record["id"], page_no, text))
-                    for ordinal, piece in enumerate(chunks_from_text(text)):
-                        cid = f"{record['id']}:p{page_no}:c{ordinal}"
-                        conn.execute("INSERT INTO chunks VALUES(%s,%s,%s,%s,%s,%s)",
-                                     (cid, record["id"], page_no, ordinal, piece, " ".join(tokenize(piece))))
-                        doc_chunks += 1
-                    if page_no <= 18:
-                        for ordinal, metric in enumerate(extract_metrics(metric_lines(page), record["period"], page_no)):
-                            mid = f"{record['id']}:p{page_no}:m{ordinal}"
-                            conn.execute("INSERT INTO metrics VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT(id) DO NOTHING",
-                                (mid, record["id"], page_no, metric["label"], metric["period"], metric["value"],
-                                 metric["unit"], metric["excerpt"], metric["confidence"]))
-                            doc_metrics += 1
+                document_pages = len(pdf)
+                if unchanged:
+                    conn.execute("DELETE FROM chunks WHERE document_id=%s", (record["id"],))
+                else:
+                    conn.execute("DELETE FROM documents WHERE id=%s", (record["id"],))
+                    conn.execute("INSERT INTO documents VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                        (record["id"], record["company"], record["code"], record["title"], record["period"],
+                         record["published"], record["url"], record["sha256"], record["path"], len(pdf), now()))
+                    for page_index, page in enumerate(pdf):
+                        page_no = page_index + 1
+                        text = page.get_text("text", sort=True).replace("\x00", "")
+                        conn.execute("INSERT INTO pages VALUES(%s,%s,%s)", (record["id"], page_no, text))
+                        if page_no <= 18:
+                            for ordinal, metric in enumerate(extract_metrics(metric_lines(page), record["period"], page_no)):
+                                mid = f"{record['id']}:p{page_no}:m{ordinal}"
+                                conn.execute("INSERT INTO metrics VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT(id) DO NOTHING",
+                                    (mid, record["id"], page_no, metric["label"], metric["period"], metric["value"],
+                                     metric["unit"], metric["excerpt"], metric["confidence"]))
+                                doc_metrics += 1
+                for ordinal, chunk in enumerate(document_chunks(pdf)):
+                    cid = f"{record['id']}:p{chunk['page']}:c{ordinal}"
+                    indexed_text = " ".join(chunk["section_path"]) + "\n" + chunk["text"]
+                    conn.execute("INSERT INTO chunks VALUES(%s,%s,%s,%s,%s,%s)",
+                        (cid, record["id"], chunk["page"], ordinal, chunk["text"], " ".join(tokenize(indexed_text))))
+                    conn.execute("INSERT INTO chunk_metadata VALUES(%s,%s,%s)",
+                        (cid, dump(chunk["section_path"]), dump(chunk["sources"])))
+                    doc_chunks += 1
+            if unchanged:
+                reindexed += 1
+            else:
                 count += 1
-                pages += len(pdf)
-                chunks += doc_chunks
-                metrics += doc_metrics
-            print(f"已索引 {record['id']}: {len(pdf) if not pdf.is_closed else '完成'} / {doc_chunks} 片段 / {doc_metrics} 指标候选", flush=True)
+                pages += document_pages
+            chunks += doc_chunks
+            metrics += doc_metrics
+            print(f"已索引 {record['id']}: {document_pages} / {doc_chunks} 片段 / {doc_metrics} 指标候选", flush=True)
         except Exception as exc:
             errors.append({"id": record["id"], "error": str(exc)})
-    result = {"new_documents": count, "new_pages": pages, "new_chunks": chunks,
+    result = {"new_documents": count, "reindexed_documents": reindexed, "new_pages": pages, "new_chunks": chunks,
               "new_metrics": metrics, "errors": errors}
     (settings.data_dir / "ingestion-report.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), "utf-8")
     return result
@@ -207,8 +206,13 @@ class Corpus:
         init_db()
         with connect() as conn:
             self.rows = [dict(x) for x in conn.execute(
-                "SELECT c.*,d.company,d.code,d.title,d.period,d.published,d.url "
-                "FROM chunks c JOIN documents d ON d.id=c.document_id ORDER BY c.id")]
+                "SELECT c.*,d.company,d.code,d.title,d.period,d.published,d.url,m.section_path,m.sources "
+                "FROM chunks c JOIN documents d ON d.id=c.document_id "
+                "LEFT JOIN chunk_metadata m ON m.chunk_id=c.id ORDER BY c.id")]
+        for row in self.rows:
+            row["section_path"] = json.loads(row["section_path"]) if row["section_path"] else []
+            row["sources"] = json.loads(row["sources"]) if row["sources"] else []
+            row["source_pages"] = list(dict.fromkeys(s["page"] for s in row["sources"])) or [row["page"]]
         self.bm25 = BM25Okapi([x["tokens"].split() or ["空"] for x in self.rows]) if self.rows else None
         with connect() as conn:
             self.documents = [dict(x) for x in conn.execute("SELECT * FROM documents ORDER BY code,period")]
@@ -253,7 +257,7 @@ class Corpus:
             if scores[index] <= 0:
                 continue
             score = float(scores[index])
-            if numeric_focus and (row["document_id"], row["page"]) in self.highlight_pages:
+            if numeric_focus and any((row["document_id"], page) in self.highlight_pages for page in row["source_pages"]):
                 score *= 2.2
             ranked.append((score, index))
         ranked.sort(reverse=True)
@@ -266,6 +270,8 @@ class Corpus:
                 continue
             used[page_key] += 1
             results.append({k: row[k] for k in ("id", "document_id", "company", "code", "title", "period", "published", "url", "page", "text")})
+            results[-1].update({"section_path": row["section_path"], "source_pages": row["source_pages"],
+                               "sources": chunk_page_sources(row)})
             results[-1]["score"] = round(score, 4)
             if len(results) >= max(1, min(top_k, 12)):
                 break

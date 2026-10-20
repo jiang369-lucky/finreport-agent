@@ -54,7 +54,7 @@ async def run(args):
             years=set(re.findall(r"20\d{2}",case["question"]))
             period=next(iter(years)) if len(years)==1 else ""
             hits=corpus.search(case["question"],case["company"],case["as_of"],5,period)
-            pages={f"{x['document_id']}:p{x['page']}" for x in hits}
+            pages={f"{x['document_id']}:p{page}" for x in hits for page in x.get("source_pages",[x["page"]])}
             output={"case_id":case["id"],"question":case["question"],"mode":args.mode,
                 "annotation_status":case["annotation_status"],"split":case["split"],
                 "retrieved_pages":sorted(pages),"evidence_page_hit_at_5":
@@ -62,7 +62,8 @@ async def run(args):
             if args.mode=="retrieval":
                 output.update({"answer":None,"numeric_value_present":None,"status":"retrieved","usage":{}})
             elif args.mode=="rag":
-                evidence=[{"citation_id":f"{x['document_id']}:p{x['page']}","text":x["text"],"published":x["published"]} for x in hits]
+                evidence=[{"citation_id":f"{x['document_id']}:p{source['page']}","text":source["text"],"published":x["published"]}
+                          for x in hits for source in x.get("sources") or [x]]
                 messages=[{"role":"system","content":"仅依据提供的历史财报证据，用中文回答。金额核对单位。引用格式 [document_id:p页码]。资料不足时说明。"},
                           {"role":"user","content":case["question"]+"\n证据："+json.dumps(evidence,ensure_ascii=False)}]
                 messages,_=fit_context(messages,[],settings.context_tokens-settings.completion_tokens-500)

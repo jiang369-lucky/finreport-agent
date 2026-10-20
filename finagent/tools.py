@@ -40,7 +40,7 @@ class CalculateInput(ToolInput):
 INPUTS = {"search_reports": SearchInput, "read_report_page": PageInput,
           "get_financial_metric": MetricInput, "calculate_metric": CalculateInput}
 DESCRIPTIONS = {
-    "search_reports": "检索中文财报，返回正文、报告期、披露日和页码；可用 company 过滤公司、period 过滤报告期。",
+    "search_reports": "检索中文财报，返回正文、章节路径、报告期、披露日和来源页码；跨页结果的 sources 分别列出每页原文。可用 company 过滤公司、period 过滤报告期。",
     "read_report_page": "读取财报完整原始页面，核对表格、单位和上下文。页码是 PDF 从 1 开始的物理页码。",
     "get_financial_metric": "查找主要财务指标的自动提取候选值，须回查页面核实；支持营业收入、归母净利润、经营现金流净额、总资产、归母净资产、基本每股收益、研发投入。",
     "calculate_metric": "使用 Decimal 精确计算；growth_pct: values=[本期,上期]，ratio_pct: [分子,分母]；输入必须先统一单位，source_ids 引用已读取的证据。",
